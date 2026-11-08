@@ -12,7 +12,7 @@ export interface DocumentSummary {
 
 export interface Task {
   id: number;
-  title: str;
+  title: string;
   description?: string | null;
   status: "todo" | "in_progress" | "done";
   priority: "low" | "medium" | "high" | "urgent";

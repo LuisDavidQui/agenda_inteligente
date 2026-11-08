@@ -103,7 +103,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 : "bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100"
             }`}
           >
-            <Sparkles className="w-4 h-4 animate-spin-slow" />
+            <Sparkles className="w-4 h-4 animate-pulse" />
             <span className="hidden sm:inline">Asistente IA</span>
           </button>
         </div>
