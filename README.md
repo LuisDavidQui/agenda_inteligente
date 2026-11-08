@@ -1,93 +1,51 @@
 # 📅 Agenda Inteligente & Asistente Local de Archivos
 
-Sistema integrado de productividad personal y gestión de agenda con asistente en lenguaje natural y organizador seguro de documentos locales.
+Aplicación full-stack de productividad personal para organizar tu agenda, compromisos y documentos locales con un asistente en lenguaje natural.
 
 ---
 
-## 🏛️ Arquitectura del Sistema
+## 🌟 Características Principales
 
-```
-                      +------------------------------------------+
-                      |           INTERFAZ VISUAL                |
-                      |  Next.js + React + Tailwind CSS          |
-                      |  (Vistas: Calendario, Kanban, Docs, Chat)|
-                      +--------------------+---------------------+
-                                           |
-                   +-----------------------+-----------------------+
-                   |                                               |
-                   v                                               v
-        [ MODO ESCRITORIO / TAURI ]                     [ MODO WEB / VERCEL ]
-           Acceso local directo                           Conexión API segura
-                   |                                               |
-                   +-----------------------+-----------------------+
-                                           |
-                                           v
-                      +------------------------------------------+
-                      |         MOTOR Y AGENTE LOCAL             |
-                      |           Python / FastAPI               |
-                      +------------------------------------------+
-                                           |
-                   +-----------------------+-----------------------+
-                   |                                               |
-                   v                                               v
-      🛡️ [ SANDBOX SEGURO ]                           💾 [ PERSISTENCIA ]
-       managed_documents/                              SQLite (agenda.db)
-       - Indexación PDF, DOCX, TXT                     - Tareas y Estados
-       - Renombrado y clasificación                    - Prioridades y Fechas
-       - Aislamiento estricto                          - Vínculos Tarea-Archivo
-```
+1. **Tablero Kanban Interactivo (Estilo Trello / Notion):**
+   - Columnas *Por Hacer*, *En Progreso* y *Completado*.
+   - Clasificación por prioridad (*Urgente*, *Alta*, *Media*, *Baja*), proyecto y fecha de entrega.
+   - Vínculo directo a documentos adjuntos.
+
+2. **Cronograma y Calendario:**
+   - Vista cronológica ordenada por fecha límite.
+   - Detección automática de tareas vencidas.
+
+3. **🛡️ Sandbox Seguro de Archivos (`managed_documents/`):**
+   - Directorio seguro delimitado para tus documentos de trabajo (PDFs, Word, notas).
+   - Protección estricta contra escapes o accesos fuera del sandbox.
+   - Explorador visual, creación de subcarpetas y previsualización de contenidos.
+
+4. **💬 Asistente IA en Lenguaje Natural (Chat):**
+   - Dicta instrucciones directamente: *"Crear tarea: Revisar informe de vertedero prioridad alta para mañana"*, *"Listar tareas pendientes"*, *"Crear carpeta Proyectos/2026"*.
+   - El asistente coordina tu agenda y crea carpetas automáticamente.
 
 ---
 
-## 🚀 Estructura del Monorepo
+## 🚀 Despliegue en Vercel (1 Clic)
 
-```
-Agenda/
-├── .env.example              # Plantilla de variables de entorno
-├── .gitignore                # Reglas de exclusión para Git
-├── README.md                 # Documentación general
-├── PLAN.md                   # Bitácora de fases y estado del desarrollo
-├── managed_documents/        # 🛡️ Directorio seguro delimitado para documentos
-│   └── README.md
-├── backend/                  # ⚙️ Motor local en Python (FastAPI + Agente)
-│   ├── main.py               # Punto de entrada de la API
-│   ├── requirements.txt      # Dependencias del backend
-│   ├── verify_pure.py        # Pruebas de verificación de seguridad y parsing
-│   ├── app/
-│   │   ├── config.py         # Configuración del entorno y rutas
-│   │   ├── database.py       # Conexión SQLAlchemy a SQLite
-│   │   ├── models.py         # Modelos de Tareas, Documentos y Vínculos
-│   │   ├── schemas.py        # Esquemas de validación Pydantic
-│   │   ├── services/
-│   │   │   ├── file_manager.py  # Gestor seguro con protección de Sandbox
-│   │   │   ├── doc_parser.py    # Extractor de texto (PDF, Word, TXT)
-│   │   │   └── agent_service.py # Comprensión de comandos en lenguaje natural
-│   │   └── routers/
-│   │       ├── tasks.py         # Endpoints CRUD de Tareas
-│   │       ├── documents.py     # Endpoints de Archivos y Sandbox
-│   │       └── agent.py         # Endpoint del Asistente en Chat
-└── frontend/                 # 💻 Aplicación de interfaz de usuario (Next.js)
-```
+Este proyecto está construido en la raíz del repositorio siguiendo los estándares nativos de **Next.js** y **Vercel**:
+
+1. En tu cuenta de **[Vercel](https://vercel.com)**, haz clic en **"Add New Project"**.
+2. Selecciona tu repositorio de GitHub `agenda_inteligente`.
+3. Haz clic en **"Deploy"** (sin necesidad de tocar configuraciones ni root directories).
 
 ---
 
-## 🔒 Mecanismo de Seguridad: Sandbox Delimitado
+## 💻 Ejecución Local
 
-Para proteger tu sistema operativo y código fuente, el motor del agente implementa un control de acceso estricto:
-- **Directorio Raíz Permitido**: `managed_documents/` (configurable en `.env`).
-- **Bloqueo de Path Traversal**: Cualquier intento de acceder o modificar rutas relativas como `../../` es interceptado y denegado inmediatamente (`SecurityException`).
-- Las pruebas automatizadas en `backend/verify_pure.py` validan este comportamiento.
+Para correr la aplicación en tu computador:
 
----
+```bash
+# 1. Instalar dependencias
+npm install
 
-## 🧪 Verificación Rápida
-
-Para verificar el motor y las reglas de seguridad sin instalar paquetes adicionales:
-
-```powershell
-python backend/verify_pure.py
+# 2. Iniciar servidor de desarrollo
+npm run dev
 ```
-Resultado:
-```
-Ran 3 tests in 0.032s - OK
-```
+
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
